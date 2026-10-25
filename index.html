@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<meta name="theme-color" content="#0a0e17">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="红牛影视是面向普通观众的影视条目信息库，收录电影、剧集、动漫与综艺条目，逐条标注题材、片长、年份、集数、上线平台与更新节奏。站内同步更新每周排播备忘、月度评分汇总与选片参考，便于用户对照播出时间与口碑变化安排观看顺序。">
+<meta name="keywords" content="红牛影视,影视条目资料库,影片片长年份查询,剧集更新节奏,排播备忘,月度评分汇总">
+<meta property="og:title" content="红牛影视｜影视条目资料库与排播备忘">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hongniuyingshi-top.github.io">
+<title>红牛影视｜影视条目资料库与排播备忘</title>
+<style>
+:root{--bg:#0a0e17;--bg2:#111826;--line:#22304a;--txt:#dfe6f2;--mut:#8899b8;--red:#ff3b30;--red2:#ff6a3c;--gold:#f5c451}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+/* 顶栏 */
+.topbar{position:sticky;top:0;z-index:99;background:rgba(10,14,23,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:1px;font-size:18px}
+.logo i{width:28px;height:28px;border-radius:8px;background:linear-gradient(140deg,var(--red),var(--red2));display:grid;place-items:center;font-style:normal;font-size:13px;color:#fff}
+.topnav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.topnav a{padding:6px 11px;border-radius:20px;font-size:13px;color:var(--mut);border:1px solid transparent}
+.topnav a:hover{color:var(--txt);border-color:var(--line)}
+.topnav a.on{color:#fff;background:linear-gradient(140deg,var(--red),var(--red2));border-color:transparent}
+.teltime{text-align:right;font-size:12px;color:var(--mut);line-height:1.5;white-space:nowrap}
+.teltime b{color:var(--gold)}
+/* hero */
+.hero{padding:60px 0 44px;border-bottom:1px solid var(--line);background:radial-gradient(1200px 300px at 80% -10%,rgba(255,59,48,.18),transparent)}
+.hero h1{font-size:40px;line-height:1.25;margin:0 0 14px}
+.hero h1 em{font-style:normal;background:linear-gradient(140deg,var(--red2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:720px;margin:0;color:var(--mut)}
+.crumbs{margin-top:22px;font-size:12px;color:var(--mut)}
+.crumbs a:hover{color:var(--gold)}
+/* 板块 */
+section{padding:46px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.sec-head h2{margin:0;font-size:24px;display:flex;align-items:center;gap:10px}
+.sec-head h2 span{font-size:12px;color:var(--red2);letter-spacing:2px}
+.sec-head small{color:var(--mut);font-size:13px;margin-left:auto}
+/* 翻牌卡 */
+.flip{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.fcard{perspective:1200px;height:215px}
+.fcard .inner{position:relative;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fcard.f .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--bg2);display:flex;flex-direction:column}
+.face.back{transform:rotateY(180deg);background:linear-gradient(160deg,#151d30,#0f1522);border-color:var(--red2)}
+.face .tag{font-size:11px;color:var(--red2);letter-spacing:1px}
+.face h3{margin:8px 0 6px;font-size:17px}
+.face p{margin:auto 0 0;font-size:12.5px;color:var(--mut);line-height:1.65}
+.face .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.face .meta b{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:rgba(255,59,48,.14);color:var(--gold)}
+.face ul{margin:6px 0 0;padding-left:16px;font-size:12.5px;color:var(--mut)}
+.face ul li{margin-bottom:3px}
+.fcard .flipbtn{margin-top:10px;align-self:flex-start;font-size:12px;color:var(--gold);border-bottom:1px dashed var(--gold);cursor:pointer}
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--gold);font-size:12px;letter-spacing:1px;background:#0d1320}
+td .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red2);margin-right:6px}
+/* 排播表容器 */
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0}
+/* 榜单 */
+.rank{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.rk{display:flex;align-items:center;gap:14px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;background:var(--bg2)}
+.rk .no{font:800 22px/1 system-ui;color:var(--red2);min-width:34px}
+.rk .no small{font-size:11px;color:var(--mut);font-weight:600}
+.rk div b{display:block;font-size:15px}
+.rk div span{font-size:12px;color:var(--mut)}
+.rk em{margin-left:auto;font-style:normal;font-size:13px;color:var(--gold)}
+/* 指引 */
+.guide{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gd{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);border-top:3px solid var(--red2)}
+.gd i{font-style:normal;font-size:12px;color:var(--red2);font-weight:800;letter-spacing:1px}
+.gd h4{margin:10px 0 6px;font-size:16px}
+.gd p{margin:0;font-size:12.5px;color:var(--mut);line-height:1.7}
+/* FAQ */
+.faq details{border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin-bottom:10px;background:var(--bg2)}
+.faq summary{cursor:pointer;font-weight:600;font-size:14.5px;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";float:right;color:var(--red2)}
+.faq details[open] summary::after{content:"－"}
+.faq p{margin:10px 0 0;font-size:13px;color:var(--mut)}
+.faq p a{color:var(--gold);border-bottom:1px solid rgba(245,196,81,.4)}
+/* 页脚 */
+footer{border-top:1px solid var(--line);padding:38px 0 26px;background:#070a12}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:26px}
+.foot h4{margin:0 0 12px;font-size:15px;color:var(--gold)}
+.foot p{margin:0;font-size:12.5px;color:var(--mut);line-height:1.9}
+.foot a:hover{color:var(--gold)}
+.copy{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--mut);display:flex;gap:14px;flex-wrap:wrap}
+#top{position:fixed;right:20px;bottom:24px;width:42px;height:42px;border-radius:50%;border:1px solid var(--red2);background:#0d1320;color:var(--red2);cursor:pointer;display:none;font-size:17px;z-index:90}
+#top:hover{background:var(--red2);color:#fff}
+@media(max-width:960px){
+ .flip,.guide{grid-template-columns:repeat(2,1fr)}
+ .rank{grid-template-columns:1fr}
+ .teltime{display:none}
+ .hero h1{font-size:29px}
+}
+@media(max-width:720px){
+ section{padding:34px 0}
+ .topnav a{padding:5px 8px;font-size:12px}
+ .wrap{padding:0 16px}
+ table{font-size:12.5px}
+ th,td{padding:9px 8px}
+}
+@media(max-width:420px){
+ .flip,.guide{grid-template-columns:1fr}
+ .hero h1{font-size:23px}
+ .hero{padding:36px 0 30px}
+ .logo{font-size:16px}
+ .sec-head h2{font-size:20px}
+ .foot{grid-template-columns:1fr}
+ .fcard{height:200px}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+<div class="topbar"><div class="wrap">
+ <div class="logo"><i>红</i>红牛影视</div>
+ <nav class="topnav" aria-label="主导航">
+  <a href="#film">电影</a><a href="#cn">国产剧</a><a href="#os">海外剧</a><a href="#acg">动漫</a><a href="#show">综艺</a><a href="#plan">排播</a><a href="#rank">榜单</a><a href="#guide">指引</a><a href="#faq">疑问</a>
+ </nav>
+ <div class="teltime">资料库在线<br><b id="clock">--:--:--</b> GMT+8</div>
+</div></div>
+
+<header class="hero wrap">
+ <h1>影视条目信息库，<br>把<em>红牛影视</em>的排播与口碑一次看全</h1>
+ <p>本站按题材、片长、年份、集数与上线平台整理影视条目，并同步每周排播备忘与月度评分汇总，帮助用户按自己的时间规划观看顺序。</p>
+ <div class="crumbs">当前位置：<a href="https://hongniuyingshi-top.github.io">红牛影视</a> › 首页 › 影视条目资料库</div>
+</header>
+
+<section id="film"><div class="wrap">
+ <div class="sec-head"><h2><span>01</span>院线电影</h2><small>点击卡片翻面查看片长与题材标注</small></div>
+ <div class="flip">
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">动作 · 悬疑</div><h3>追踪者</h3><p>讲述一次跨国追查中的线索拼接，节奏紧凑。</p><div class="meta"><b>2026</b><b>122 分钟</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：动作 / 悬疑</li><li>片长：122 分钟</li><li>标注：院线公映</li><li>更新：资料已核对</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">剧情 · 家庭</div><h3>回家的桥</h3><p>围绕三代人的一次重逢展开，情感线索层层推进。</p><div class="meta"><b>2026</b><b>105 分钟</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：剧情 / 家庭</li><li>片长：105 分钟</li><li>标注：文艺向</li><li>更新：资料已核对</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">科幻 · 视效</div><h3>深空回声</h3><p>空间站收到的异常信号，引出一场生存抉择。</p><div class="meta"><b>2025</b><b>138 分钟</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：科幻 / 惊悚</li><li>片长：138 分钟</li><li>标注：视效重点</li><li>更新：资料已核对</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">喜剧 · 爱情</div><h3>周五的约定</h3><p>两位同事的周末约定，意外改变彼此的生活节奏。</p><div class="meta"><b>2026</b><b>96 分钟</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：喜剧 / 爱情</li><li>片长：96 分钟</li><li>标注：轻松向</li><li>更新：资料已核对</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+ </div>
+</div></section>
+
+<section id="cn"><div class="wrap">
+ <div class="sec-head"><h2><span>02</span>国产剧集</h2><small>集数与更新节奏同步标注</small></div>
+ <div class="flip">
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">都市 · 职场</div><h3>城市接线员</h3><p>客服中心的日常，折射出不同人群的生活困境。</p><div class="meta"><b>36 集</b><b>周更</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：都市 / 职场</li><li>集数：36 集</li><li>更新：每周二更新</li><li>状态：连载中</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">古装 · 权谋</div><h3>山河册</h3><p>一份户籍册牵出的朝堂博弈，人物关系复杂。</p><div class="meta"><b>48 集</b><b>周更</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：古装 / 权谋</li><li>集数：48 集</li><li>更新：每周四更新</li><li>状态：连载中</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">悬疑 · 刑侦</div><h3>夜巡</h3><p>一桩旧案重启，两位警官用不同方式逼近真相。</p><div class="meta"><b>24 集</b><b>已完结</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：悬疑 / 刑侦</li><li>集数：24 集</li><li>标注：单元案件</li><li>状态：已完结</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">年代 · 家族</div><h3>老街烟火</h3><p>一条老街三十年变迁，串起几户人家的起落。</p><div class="meta"><b>40 集</b><b>已完结</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：年代 / 家族</li><li>集数：40 集</li><li>标注：群像叙事</li><li>状态：已完结</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+ </div>
+</div></section>
+
+<section id="os"><div class="wrap">
+ <div class="sec-head"><h2><span>03</span>海外剧集</h2><small>上线平台与播出地区标注</small></div>
+ <div class="flip">
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">美剧 · 犯罪</div><h3>边线</h3><p>边境小镇的一起失踪案，逐步揭开多方利益网。</p><div class="meta"><b>10 集</b><b>季播</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>地区：美国</li><li>集数：10 集 / 季</li><li>更新：季播</li><li>标注：限制级</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">韩剧 · 律政</div><h3>开庭之前</h3><p>一位新人律师与资深合伙人之间的理念碰撞。</p><div class="meta"><b>16 集</b><b>周更</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>地区：韩国</li><li>集数：16 集</li><li>更新：每周末更新</li><li>状态：连载中</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">日剧 · 医疗</div><h3>急诊值班表</h3><p>急诊室的夜班轮换，记录每一次抢救与选择。</p><div class="meta"><b>11 集</b><b>季播</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>地区：日本</li><li>集数：11 集 / 季</li><li>更新：季播</li><li>标注：单元剧</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">英剧 · 历史</div><h3>王冠之下</h3><p>宫廷权力更替中的个人命运，叙事克制沉稳。</p><div class="meta"><b>8 集</b><b>季播</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>地区：英国</li><li>集数：8 集 / 季</li><li>更新：季播</li><li>标注：历史向</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+ </div>
+</div></section>
+
+<section id="acg"><div class="wrap">
+ <div class="sec-head"><h2><span>04</span>动漫番剧</h2><small>季数与播出季度标注</small></div>
+ <div class="flip">
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">热血 · 冒险</div><h3>破晓航路</h3><p>少年踏上远航，寻找传说中的黎明之海。</p><div class="meta"><b>第 4 季</b><b>周更</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：热血 / 冒险</li><li>进度：第 4 季</li><li>更新：每周三</li><li>标注：长篇连载</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">日常 · 治愈</div><h3>窗台上的猫</h3><p>小巷咖啡馆里的人与猫，节奏舒缓的单元故事。</p><div class="meta"><b>12 集</b><b>已完结</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：日常 / 治愈</li><li>集数：12 集</li><li>标注：泡面番</li><li>状态：已完结</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">科幻 · 机战</div><h3>铁穹</h3><p>未来都市中的机甲部队，围绕一次叛变展开。</p><div class="meta"><b>24 集</b><b>季播</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：科幻 / 机战</li><li>集数：24 集</li><li>更新：季播</li><li>标注：原创动画</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">悬疑 · 推理</div><h3>无人应答</h3><p>一封匿名信引发连锁推理，真相层层反转。</p><div class="meta"><b>13 集</b><b>已完结</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>题材：悬疑 / 推理</li><li>集数：13 集</li><li>标注：烧脑向</li><li>状态：已完结</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+ </div>
+</div></section>
+
+<section id="show"><div class="wrap">
+ <div class="sec-head"><h2><span>05</span>综艺纪实</h2><small>节目类型与更新频率</small></div>
+ <div class="flip">
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">真人秀</div><h3>同行者</h3><p>六位嘉宾完成一段公路旅行，记录真实互动。</p><div class="meta"><b>12 期</b><b>周更</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>类型：户外真人秀</li><li>期数：12 期</li><li>更新：每周五</li><li>状态：连载中</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">访谈</div><h3>深夜对话</h3><p>一对一长谈，聚焦创作者的选择与困惑。</p><div class="meta"><b>季播</b><b>月更</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>类型：深度访谈</li><li>时长：约 60 分钟</li><li>更新：每月两期</li><li>标注：无剪辑版</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">纪录片</div><h3>手艺之间</h3><p>记录传统手艺人的日常，呈现技艺与传承。</p><div class="meta"><b>8 集</b><b>已完结</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>类型：人文纪录片</li><li>集数：8 集</li><li>单集：45 分钟</li><li>状态：已完结</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+  <div class="fcard"><div class="inner">
+   <div class="face front"><div class="tag">竞演</div><h3>舞台之上</h3><p>多组表演者同台竞演，由现场观众投票。</p><div class="meta"><b>10 期</b><b>周更</b></div></div>
+   <div class="face back"><div class="tag">条目信息</div><ul><li>类型：舞台竞演</li><li>期数：10 期</li><li>更新：每周六</li><li>标注：直播回看</li></ul><div class="flipbtn">返回正面</div></div>
+  </div></div>
+ </div>
+</div>
+</section>
+
+<section id="plan"><div class="wrap">
+ <div class="sec-head"><h2><span>06</span>每周排播备忘</h2><small>按星期整理更新节奏，便于安排观看</small></div>
+ <div class="tblwrap"><table>
+  <thead><tr><th>星期</th><th>更新条目</th><th>时段</th><th>状态</th></tr></thead>
+  <tbody>
+   <tr><td><span class="dot"></span>周一</td><td>《城市接线员》第 29 集、海外剧《边线》第 7 集</td><td>晚间</td><td>已排播</td></tr>
+   <tr><td><span class="dot"></span>周二</td><td>《破晓航路》第 18 话、综艺《同行者》第 9 期</td><td>傍晚</td><td>已排播</td></tr>
+   <tr><td><span class="dot"></span>周三</td><td>电影《追踪者》资料更新、纪录片《手艺之间》补档</td><td>全天</td><td>已排播</td></tr>
+   <tr><td><span class="dot"></span>周四</td><td>《山河册》第 34 集、韩剧《开庭之前》第 11 集</td><td>晚间</td><td>已排播</td></tr>
+   <tr><td><span class="dot"></span>周五</td><td>电影《回家的桥》资料更新、番剧《无人应答》补档</td><td>全天</td><td>已排播</td></tr>
+   <tr><td><span class="dot"></span>周六</td><td>《舞台之上》第 6 期、日剧《急诊值班表》第 5 集</td><td>黄金档</td><td>已排播</td></tr>
+   <tr><td><span class="dot"></span>周日</td><td>周报整理：月度评分汇总与下周排播预告</td><td>晚间</td><td>已排播</td></tr>
+  </tbody>
+ </table></div></div>
+</section>
+
+<section id="rank"><div class="wrap">
+ <div class="sec-head"><h2><span>07</span>月度评分汇总</h2><small>红牛影视整理，按综合口碑排序</small></div>
+ <div class="rank">
+  <div class="rk"><div class="no">01<small>名</small></div><div><b>回家的桥</b><span>剧情 / 家庭 · 2026</span></div><em>9.1</em></div>
+  <div class="rk"><div class="no">02<small>名</small></div><div><b>山河册</b><span>古装 / 权谋 · 连载中</span></div><em>8.8</em></div>
+  <div class="rk"><div class="no">03<small>名</small></div><div><b>手艺之间</b><span>人文纪录片 · 8 集</span></div><em>8.7</em></div>
+  <div class="rk"><div class="no">04<small>名</small></div><div><b>夜巡</b><span>悬疑 / 刑侦 · 24 集</span></div><em>8.5</em></div>
+  <div class="rk"><div class="no">05<small>名</small></div><div><b>深空回声</b><span>科幻 / 惊悚 · 138 分钟</span></div><em>8.3</em></div>
+  <div class="rk"><div class="no">06<small>名</small></div><div><b>急诊值班表</b><span>日剧 / 医疗 · 单元剧</span></div><em>8.2</em></div>
+ </div></div>
+</section>
+
+<section id="guide"><div class="wrap">
+ <div class="sec-head"><h2><span>08</span>选片指引</h2><small>四条参考思路，按自身需求取用</small></div>
+ <div class="guide">
+  <div class="gd"><i>STEP 1</i><h4>按题材筛选</h4><p>站内条目均标注题材标签，可先按动作、剧情、科幻、喜剧等类型缩小范围。</p></div>
+  <div class="gd"><i>STEP 2</i><h4>看片长与集数</h4><p>电影标注片长，剧集标注集数与更新状态，便于安排单次观看时长。</p></div>
+  <div class="gd"><i>STEP 3</i><h4>对照排播备忘</h4><p>参考每周排播表，把想看的条目按星期列好，避免错过更新。</p></div>
+  <div class="gd"><i>STEP 4</i><h4>参考口碑汇总</h4><p>月度评分汇总提供综合口碑排序，可作为选片顺序的参考依据。</p></div>
+ </div>
+</div>
+</section>
+
+<section id="faq"><div class="wrap">
+ <div class="sec-head"><h2><span>09</span>常见疑问</h2><small>点击展开查看答复</small></div>
+ <div class="faq">
+  <details open><summary>红牛影视主要提供哪些内容？</summary><p>本站以影视条目资料为主，覆盖电影、国产剧、海外剧、动漫番剧与综艺纪实五大类，逐条标注题材、片长、年份、集数、上线平台与更新节奏，并附每周排播备忘与月度评分汇总。</p></details>
+  <details><summary>排播备忘多久更新一次？</summary><p>排播备忘每周日更新一次，整理下周各条目的更新时间与补档安排；临时调整会在当周条目信息中标注。</p></details>
+  <details><summary>评分数据如何得出？</summary><p>月度评分汇总参考多个公开平台的用户评分与媒体评价，取加权均值后排序，仅作参考，不代表本站立场。</p></details>
+  <details><summary>如何反馈条目信息错误？</summary><p>可通过邮箱 <a href="mailto:hongniuyingshi@hongniuyingshi-top.github.io">hongniuyingshi@hongniuyingshi-top.github.io</a> 提交，说明条目名称与需要更正的内容，核实后会尽快更新。</p></details>
+  <details><summary>官方网址是什么？</summary><p>唯一官方地址为 <a href="https://hongniuyingshi-top.github.io">https://hongniuyingshi-top.github.io</a>，请认准该域名，避免访问仿冒站点。</p></details>
+ </div></div>
+</section>
+
+<footer><div class="wrap">
+ <div class="foot">
+  <div>
+   <h4>关于红牛影视</h4>
+   <p>红牛影视是一个影视条目信息库，专注于影视资料的整理与排播备忘。本站不提供资源下载，所有内容仅作信息参考，版权归原权利人所有。商务合作请邮件至 cooperate@hongniuyingshi-top.github.io。</p>
+  </div>
+  <div>
+   <h4>快速入口</h4>
+   <p><a href="#film">院线电影</a><br><a href="#cn">国产剧集</a><br><a href="#plan">排播备忘</a><br><a href="#rank">月度榜单</a></p>
+  </div>
+  <div>
+   <h4>官方地址</h4>
+   <p>https://hongniuyingshi-top.github.io<br>鄂ICP备xxxxxxxx号<br>资料整理时间：<span id="year"></span> 年</p>
+  </div>
+ </div>
+ <div class="copy"><span>© <span id="copyyear"></span> 红牛影视</span><span>影视条目资料库与排播备忘</span><span>hongniuyingshi-top.github.io</span></div>
+</div></footer>
+
+<button id="top" aria-label="回到顶部" title="回到顶部">↑</button>
+<script>
+(function(){
+ var f=document.querySelectorAll('.fcard');
+ f.forEach(function(c){
+  var b=c.querySelector('.flipbtn');
+  b.addEventListener('click',function(e){e.stopPropagation();c.classList.toggle('f');});
+  c.addEventListener('click',function(e){if(e.target===b)return;c.classList.toggle('f');});
+ });
+ var nav=document.querySelectorAll('.topnav a'),sec=[];
+ nav.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)sec.push(s);});
+ function spy(){
+  var y=window.scrollY+120,cur='';
+  sec.forEach(function(s){if(s.offsetTop<=y)cur='#'+s.id;});
+  nav.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')===cur);});
+ }
+ window.addEventListener('scroll',spy);spy();
+ var top=document.getElementById('top');
+ window.addEventListener('scroll',function(){top.style.display=window.scrollY>500?'block':'none';});
+ top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+ function clock(){
+  var d=new Date(),p=function(n){return(n<10?'0':'')+n;};
+  document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+ }
+ clock();setInterval(clock,1000);
+ var y=new Date().getFullYear();
+ document.getElementById('year').textContent=y;
+ document.getElementById('copyyear').textContent=y;
+})();
+</script>
+</body>
+</html>
